@@ -127,7 +127,13 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="haffmancode.cpp" />
+    <ClCompile Include="building_tree.cpp" />
+    <ClCompile Include="driver.cpp" />
+    <ClCompile Include="info_character.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="building_tree.h" />
+    <ClInclude Include="info_character.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
