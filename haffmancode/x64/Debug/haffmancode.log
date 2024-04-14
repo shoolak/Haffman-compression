@@ -1,3 +1,2 @@
 ﻿  building_tree.cpp
-D:\prog\haffmancode\haffmancode\building_tree.cpp(70,11): warning C4244: 'initializing': conversion from 'double' to 'int', possible loss of data
   haffmancode.vcxproj -> D:\prog\haffmancode\x64\Debug\haffmancode.exe

@@ -48,7 +48,7 @@ void decode(Node* root, int& index, string str)
 		decode(root->right, index, str);
 }
 
-void buildHuffmanTree(string text)
+void build_huffman_tree(string text)
 {
 	unordered_map<char, double> map;
 	calc_freq(text, map);
@@ -67,7 +67,7 @@ void buildHuffmanTree(string text)
 		pq.pop();
 
 		//create new leaf from sum of two min frequency
-		int sum = left->frequency + right->frequency;
+		double sum = left->frequency + right->frequency;
 		pq.push(new_node('\0', sum, left, right));
 	}
 
@@ -79,15 +79,22 @@ void buildHuffmanTree(string text)
 	encode(root, "", huffmanCode);
 
 	cout << "Probability of symbols: " << "\n";
+	
 	for (auto pair : map)
 	{
-		cout << pair.first << " " << pair.second << '\n';
+		if (pair.first != '\n')
+			cout << pair.first << " " << pair.second << '\n';
+		else
+			cout << "next_line_symbol " << pair.second << '\n';
 	}
 	cout << "\n";
 
 	cout << "Huffman Codes are :\n";
 	for (auto pair : huffmanCode) {
-		cout << pair.first << " " << pair.second << '\n';
+		if (pair.first != '\n')
+			cout << pair.first << " " << pair.second << '\n';
+		else
+			cout << "next_line_symbol " << pair.second << '\n';
 	}
 
 	
