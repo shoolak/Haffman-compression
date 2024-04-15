@@ -12,3 +12,17 @@ void calc_freq(std::string text, std::unordered_map<char, double> &map)
     }
 
 }
+string file_to_string(string filename)
+{
+    ifstream file(filename);
+    string text_file;
+    string temp;
+
+    if (file.is_open()) {
+        while (getline(file, temp))
+        {
+            text_file += temp + "\n";
+        }
+    }
+    return text_file;
+}

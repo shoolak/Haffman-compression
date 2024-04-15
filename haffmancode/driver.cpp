@@ -1,27 +1,15 @@
 #include "building_tree.h"
+#include "info_character.h"
 #include <iostream>
 #include <fstream>
 using namespace std;
 
 int main()
 {
-	string file_path = "D:\\testing.txt";
-	string temp;
-	string text_file;
-	ifstream file(file_path);
-	if (file.is_open()) {
-		while (getline(file, temp))
-		{
-			text_file += temp + "\n";
-		}
-	}
+	//TODO avoid ipch folder for github
 	
-	cout << text_file;
-	/*cout << "Input: ";
-	string text;
-	cin >> text;*/
-
-	build_huffman_tree(text_file);
+	string file = "example.txt";
+	build_huffman_tree(file_to_string(file));
 
 	return 0;
 }
