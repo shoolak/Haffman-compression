@@ -116,9 +116,18 @@ void build_huffman_tree(string text) //for console
 	}
 	cout << endl;
 }
-void build_huffman_tree(string text, FILE* file) // for file
+void build_huffman_tree(string text, string filename) // for file
 {
-	
+	size_t dot_pos = filename.find_first_of('.');
+	while (dot_pos != std::string::npos)
+	{
+		filename.erase(dot_pos);
+		dot_pos = filename.find_last_of('.');
+	}
+	string new_file_general_info = filename + "_general_info.cmph";
+	string incoded_file = filename + ".cmph";
+	ofstream general_info(new_file_general_info);
+	ofstream compessed_file(incoded_file);
 	unordered_map<char, double> map;
 	calc_freq(text, map);
 
@@ -147,28 +156,28 @@ void build_huffman_tree(string text, FILE* file) // for file
 	unordered_map<char, string> huffmanCode;
 	encode(root, "", huffmanCode);
 
-	cout << "Probability of symbols: " << "\n";
+	general_info << "Probability of symbols: " << "\n";
 
 	for (auto pair : map)
 	{
 		if (pair.first != '\n')
-			cout << pair.first << " " << pair.second << '\n';
+			general_info << pair.first << " " << pair.second << '\n';
 		else
-			cout << "next_line_symbol " << pair.second << '\n';
+			general_info << "next_line_symbol " << pair.second << '\n';
 	}
 	cout << "\n";
 
-	cout << "Huffman Codes are :\n";
+	general_info << "Huffman Codes are :\n";
 	for (auto pair : huffmanCode) {
 		if (pair.first != '\n')
-			cout << pair.first << " " << pair.second << '\n';
+			general_info << pair.first << " " << pair.second << '\n';
 		else
-			cout << "next_line_symbol " << pair.second << '\n';
+			general_info << "next_line_symbol " << pair.second << '\n';
 	}
 
 
 
-	cout << "\nOriginal string was :\n" << text << '\n';
+	general_info << "\nOriginal string was :\n" << text << '\n';
 
 
 	string str = "";
@@ -176,10 +185,10 @@ void build_huffman_tree(string text, FILE* file) // for file
 		str += huffmanCode[ch];
 	}
 
-	cout << "\nEncoded string is :\n" << str << '\n';
+	compessed_file << "\nEncoded string is :\n" << str << '\n';
 
 	int index = -1;
-	cout << "\nDecoded string is: \n";
+	general_info << "\nDecoded string is: \n";
 	while (index < (int)str.size() - 2) {
 		decode(root, index, str);
 	}
