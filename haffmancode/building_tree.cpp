@@ -116,6 +116,7 @@ void build_huffman_tree(string text) //for console
 	}
 	cout << endl;
 }
+
 void build_huffman_tree(string text, string filename) // for file
 {
 	size_t dot_pos = filename.find_first_of('.');
@@ -184,9 +185,7 @@ void build_huffman_tree(string text, string filename) // for file
 	for (char ch : text) {
 		str += huffmanCode[ch];
 	}
-
-	compessed_file << "\nEncoded string is :\n" << str << '\n';
-
+		compessed_file << "\nEncoded string is :\n" << str << '\n';
 	int index = -1;
 	general_info << "\nDecoded string is: \n";
 	while (index < (int)str.size() - 2) {
@@ -194,3 +193,11 @@ void build_huffman_tree(string text, string filename) // for file
 	}
 	cout << endl;
 }
+
+unsigned long long int get_file_size(const char* file_name) {
+	FILE* file = fopen(file_name, "rb");
+	fseek(file, 0, SEEK_END);
+	unsigned long long int size = _ftelli64(file);
+	fclose(file);
+	return size;
+} // return size of file. *_ftelli64 return a current position in a file(apllies only with Visual Studio).Normal form is ftello64

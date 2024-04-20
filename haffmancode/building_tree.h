@@ -3,6 +3,9 @@
 #include <unordered_map>
 #include <iostream>
 #include <fstream>
+#include <stdio.h>
+
+
 
 using namespace std;
 
@@ -33,3 +36,5 @@ void decode(Node* root, int& index, string str);
 
 void build_huffman_tree(string text);
 void build_huffman_tree(string text, string filename);
+
+unsigned long long int get_file_size(const char* file_name);
