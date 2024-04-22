@@ -20,7 +20,7 @@ void encode(Node* root, string str, unordered_map<char, string>& huffmanCode)
 		return;
 
 	if (!root->left && !root->right) {
-		huffmanCode[root->symbol] = str;
+		huffmanCode[(unsigned char )root->symbol] = str;
 	}
 
 	encode(root->left, str + "0", huffmanCode);
@@ -47,7 +47,12 @@ void decode(Node* root, int& index, string str)
 	else
 		decode(root->right, index, str);
 }
-
+char binaryToChar(string code)
+{
+	int decimal = stoi(code, nullptr, 2); 
+	return static_cast<char>(decimal);
+	
+}//converting 8 digits to the ascii symbol
 void build_huffman_tree(string text) //for console
 {
 	unordered_map<char, double> map;
@@ -106,8 +111,13 @@ void build_huffman_tree(string text) //for console
 	for (char ch : text) {
 		str += huffmanCode[ch];
 	}
-
 	cout << "\nEncoded string is :\n" << str << '\n';
+	for (size_t i = 0; i < str.length(); i += 8)
+	{
+		string chunk = str.substr(i, 8);
+		cout << binaryToChar(chunk);
+	}
+	//cout << "\nEncoded string is :\n" << str << '\n';
 
 	int index = -1;
 	cout << "\nDecoded string is: \n";
@@ -185,7 +195,11 @@ void build_huffman_tree(string text, string filename) // for file
 	for (char ch : text) {
 		str += huffmanCode[ch];
 	}
-		compessed_file << "\nEncoded string is :\n" << str << '\n';
+	for (size_t i = 0; i < str.length(); i += 8)
+	{
+		string chunk = str.substr(i, 8);
+		compessed_file << binaryToChar(chunk);
+	}
 	int index = -1;
 	general_info << "\nDecoded string is: \n";
 	while (index < (int)str.size() - 2) {
@@ -200,4 +214,6 @@ unsigned long long int get_file_size(const char* file_name) {
 	unsigned long long int size = _ftelli64(file);
 	fclose(file);
 	return size;
-} // return size of file. *_ftelli64 return a current position in a file(apllies only with Visual Studio).Normal form is ftello64
+} // return size of file. _ftelli64 return a current position in a file(apllies only with Visual Studio).Normal form is ftello64
+ // TODO Headers for decoding
+ // TODO why coded file is larger that normal++
