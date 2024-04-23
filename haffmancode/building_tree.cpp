@@ -14,6 +14,8 @@ Node* new_node(char symbol, double frequency, Node* left, Node* right)
 	return node;
 }
 
+
+
 void encode(Node* root, string str, unordered_map<char, string>& huffmanCode)
 {
 	if (root == nullptr)
@@ -47,20 +49,20 @@ void decode(Node* root, int& index, string str)
 	else
 		decode(root->right, index, str);
 }
-char binaryToChar(string code)
+char binaryToChar(string code)//converting 8 digits to the ascii symbol
 {
 	int decimal = stoi(code, nullptr, 2); 
 	return static_cast<char>(decimal);
 	
-}//converting 8 digits to the ascii symbol
-void build_huffman_tree(string text) //for console
+}
+data_maps build_huffman_tree(string text) //for console
 {
-	unordered_map<char, double> map;
-	calc_freq(text, map);
+	data_maps maps;
+	calc_freq(text, maps.char_prob);
 
 	priority_queue<Node*, vector<Node*>, compare_node> pq;
 
-	for (auto pair : map) {
+	for (auto pair : maps.char_prob) {
 		pq.push(new_node(pair.first, pair.second, nullptr, nullptr));
 	}
 
@@ -71,60 +73,33 @@ void build_huffman_tree(string text) //for console
 		Node* right = pq.top();
 		pq.pop();
 
-		//create new leaf from sum of two min frequency
-		double sum = left->frequency + right->frequency;
+		double sum = left->frequency + right->frequency;//create new leaf from sum of two min frequency
 		pq.push(new_node('\0', sum, left, right));
 	}
 
-	// pointer to root of the tree
-	Node* root = pq.top();
-
-
-	unordered_map<char, string> huffmanCode;
-	encode(root, "", huffmanCode);
-
-	cout << "Probability of symbols: " << "\n";
 	
-	for (auto pair : map)
-	{
-		if (pair.first != '\n')
-			cout << pair.first << " " << pair.second << '\n';
-		else
-			cout << "next_line_symbol " << pair.second << '\n';
-	}
-	cout << "\n";
+	Node* root = pq.top(); // pointer to root of the tree
 
-	cout << "Huffman Codes are :\n";
-	for (auto pair : huffmanCode) {
-		if (pair.first != '\n')
-			cout << pair.first << " " << pair.second << '\n';
-		else
-			cout << "next_line_symbol " << pair.second << '\n';
-	}
-
-	
-
-	cout << "\nOriginal string was :\n" << text << '\n';
-
-
+	encode(root, "", maps.char_haffcode);
 	string str = "";
 	for (char ch : text) {
-		str += huffmanCode[ch];
+		maps.haffcode_all += maps.char_haffcode[ch];
 	}
-	cout << "\nEncoded string is :\n" << str << '\n';
-	for (size_t i = 0; i < str.length(); i += 8)
+	for (size_t i = 0, d = 0; i < maps.haffcode_all.length(); i += 8, d++)
 	{
-		string chunk = str.substr(i, 8);
-		cout << binaryToChar(chunk);
+		string chunk = maps.haffcode_all.substr(i, 8);
+		maps.ascii_char += binaryToChar(chunk);
 	}
-	//cout << "\nEncoded string is :\n" << str << '\n';
 
+	//"?
 	int index = -1;
-	cout << "\nDecoded string is: \n";
 	while (index < (int)str.size() - 2) {
 		decode(root, index, str);
 	}
+	///TODO return decode string
 	cout << endl;
+
+	return maps;
 }
 
 void build_huffman_tree(string text, string filename) // for file

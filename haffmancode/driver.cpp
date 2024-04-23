@@ -8,6 +8,7 @@ using namespace std;
 
 int main()
 {
+	
 	const char* a = "D:\\HC_test\\test_large.txt";
 	
 	int choose;
@@ -21,7 +22,10 @@ int main()
 		cout << "Input text: ";
 		string text;
 		cin >> text;
-		build_huffman_tree(text);
+		
+		data_maps maps = build_huffman_tree(text);
+		cout << maps.haffcode_all << endl;
+		cout << maps.ascii_char << endl;
 	}
 	else if (choose == 2)
 	{
@@ -31,7 +35,7 @@ int main()
 		const char* file_path = input.c_str();
 		cout << "Size of input file is " << get_file_size(file_path) / b_to_kb << " KB" << endl;
 		//string file = "D:\\testing.txt";
-		build_huffman_tree(file_to_string(file_path), file_path);
+		//build_huffman_tree(file_to_string(file_path), file_path);
 	}
 
 	return 0;
