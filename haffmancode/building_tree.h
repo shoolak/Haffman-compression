@@ -41,6 +41,5 @@ void encode(Node* root, string str, unordered_map<char, string>& huffmanCode);
 void decode(Node* root, int& index, string str);
 
 data_maps build_huffman_tree(string text);
-//void build_huffman_tree(string text, string filename);
 
 unsigned long long int get_file_size(const char* file_name);

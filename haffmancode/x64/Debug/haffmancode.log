@@ -1,2 +1,7 @@
-﻿  driver.cpp
+﻿  building_tree.cpp
+  driver.cpp
+  info_character.cpp
+D:\prog\haffmancode\haffmancode\info_character.cpp(5,34): warning C4244: 'initializing': conversion from 'unsigned __int64' to 'double', possible loss of data
+D:\prog\haffmancode\haffmancode\info_character.cpp(5,23): warning C4244: 'initializing': conversion from 'unsigned __int64' to 'const double', possible loss of data
+  Generating Code...
   haffmancode.vcxproj -> D:\prog\haffmancode\x64\Debug\haffmancode.exe

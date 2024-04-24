@@ -12,6 +12,7 @@ void calc_freq(std::string text, std::unordered_map<char, double> &map)
     }
 
 }
+
 string file_to_string(string filename)
 {
     ifstream file(filename);

@@ -8,9 +8,9 @@ using namespace std;
 
 int main()
 {
-	
-	const char* a = "D:\\HC_test\\test_large.txt";
-	
+	// // TODO: separete decoding
+	// // TODO: headers for decoding
+	// // TODO: size for coded file, probably size of input text - output in console
 	int choose;
 	cout << "Hi! Choose the comppresion you want from" << endl;
 	cout << "1. From console" << endl;
@@ -24,6 +24,7 @@ int main()
 		cin >> text;
 		
 		data_maps maps = build_huffman_tree(text);
+
 		cout << maps.haffcode_all << endl;
 		cout << maps.ascii_char << endl;
 	}
@@ -32,10 +33,12 @@ int main()
 		string input;
 		cout << "Enter file path: ";
 		cin >> input;
+
 		const char* file_path = input.c_str();
+
 		cout << "Size of input file is " << get_file_size(file_path) / b_to_kb << " KB" << endl;
-		//string file = "D:\\testing.txt";
-		//build_huffman_tree(file_to_string(file_path), file_path);
+
+		data_maps maps = build_huffman_tree(file_to_string(file_path));
 	}
 
 	return 0;
