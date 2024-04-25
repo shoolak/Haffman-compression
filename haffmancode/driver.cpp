@@ -10,7 +10,6 @@ int main()
 {
 	// // TODO: separete decoding
 	// // TODO: headers for decoding
-	// // TODO: size for coded file, probably size of input text - output in console
 	int choose;
 	cout << "Hi! Choose the comppresion you want from" << endl;
 	cout << "1. From console" << endl;
@@ -39,6 +38,19 @@ int main()
 		cout << "Size of input file is " << get_file_size(file_path) / b_to_kb << " KB" << endl;
 
 		data_maps maps = build_huffman_tree(file_to_string(file_path));
+
+		size_t dot_pos = input.find_first_of('.');
+		while (dot_pos != std::string::npos)
+			{
+				input.erase(dot_pos);
+				dot_pos = input.find_last_of('.');
+			}
+		
+		string incoded_file = input + ".cmph";
+		ofstream compessed_file(incoded_file);
+		const char* file_path_coded = incoded_file.c_str();
+		compessed_file << maps.ascii_char;
+		cout << "Size of encoded file is " << get_file_size(file_path_coded)  << " KB" << endl;
 	}
 
 	return 0;

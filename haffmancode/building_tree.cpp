@@ -112,14 +112,3 @@ unsigned long long int get_file_size(const char* file_name) // return size of fi
 } 
 
 
-
-//size_t dot_pos = filename.find_first_of('.');
-//	while (dot_pos != std::string::npos)
-//	{
-//		filename.erase(dot_pos);
-//		dot_pos = filename.find_last_of('.');
-//	}
-//	string new_file_general_info = filename + "_general_info.cmph";
-//	string incoded_file = filename + ".cmph";
-//	ofstream general_info(new_file_general_info);
-//	ofstream compessed_file(incoded_file);
