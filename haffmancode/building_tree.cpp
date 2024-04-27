@@ -14,8 +14,6 @@ Node* new_node(char symbol, double frequency, Node* left, Node* right)
 	return node;
 }
 
-
-
 void encode(Node* root, string str, unordered_map<char, string>& huffmanCode)
 {
 	if (root == nullptr)
@@ -29,26 +27,26 @@ void encode(Node* root, string str, unordered_map<char, string>& huffmanCode)
 	encode(root->right, str + "1", huffmanCode);
 }
 
-void decode(Node* root, int& index, string str)
-{
-	if (root == nullptr) {
-		return;
-	}
-
-	// found a leaf node
-	if (!root->left && !root->right)
-	{
-		cout << root->symbol;
-		return;
-	}
-
-	index++;
-
-	if (str[index] == '0')
-		decode(root->left, index, str);
-	else
-		decode(root->right, index, str);
-}
+//void decode(Node* root, int& index, string str)
+//{
+//	if (root == nullptr) {
+//		return;
+//	}
+//
+//	// found a leaf node
+//	if (!root->left && !root->right)
+//	{
+//		cout << root->symbol;
+//		return;
+//	}
+//
+//	index++;
+//
+//	if (str[index] == '0')
+//		decode(root->left, index, str);
+//	else
+//		decode(root->right, index, str);
+//}
 
 char binaryToChar(string code)//converting 8 digits to the ascii symbol
 {
@@ -57,7 +55,7 @@ char binaryToChar(string code)//converting 8 digits to the ascii symbol
 	
 }
 
-data_maps build_huffman_tree(string text) //for console
+data_maps build_huffman_tree(string text)
 {
 	data_maps maps;
 	calc_freq(text, maps.char_prob);
@@ -91,15 +89,63 @@ data_maps build_huffman_tree(string text) //for console
 		string chunk = maps.haffcode_all.substr(i, 8);
 		maps.ascii_char += binaryToChar(chunk);
 	}
-
-	
-	/*int index = -1;
-	while (index < (int)maps.haffcode_all.size() - 2) {
-		decode(root, index, maps.haffcode_all);
-	}*/
-	
-	
 	return maps;
+}
+
+Node* recreate_haffman_tree(unordered_map<char, double>& char_prob) {
+	priority_queue<Node*, vector<Node*>, compare_node> pq;
+
+	for (auto pair : char_prob) {
+		pq.push(new Node{ pair.first, pair.second, nullptr, nullptr });
+	}
+
+	while (pq.size() != 1)
+	{
+		Node* left = pq.top();
+		pq.pop();
+		Node* right = pq.top();
+		pq.pop();
+
+		double sum = left->frequency + right->frequency;
+		pq.push(new Node{ '\0', sum, left, right });
+	}
+
+	return pq.top();
+}
+
+string decode_huffman_text(Node* root, string& encodedText) {
+	string decodedText = "";
+	Node* curr = root;
+	for (char bit : encodedText) {
+		if (bit == '0') {
+			curr = curr->left;
+		}
+		else {
+			curr = curr->right;
+		}
+		if (curr->left == nullptr && curr->right == nullptr) {
+			decodedText += curr->symbol;
+			curr = root;
+		}
+	}
+	return decodedText;
+}
+
+data_maps parsing_file(string text)
+{
+	data_maps data;
+	ifstream file(text);
+	char ch;
+	double prob;
+	while (file >> ch >> prob)
+	{
+		data.char_prob[ch] = prob;
+	}
+
+	while (file.get(ch)) {
+		data.ascii_char += ch;
+	}
+	return data;
 }
 
 unsigned long long int get_file_size(const char* file_name) // return size of file. _ftelli64 return a current position in a file(apllies to only Visual Studio).Normal form is ftello64

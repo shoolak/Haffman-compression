@@ -26,6 +26,7 @@ struct data_maps {
 	string ascii_char; // for ascii representation for binary code  01001111 = 'O'
 };
 
+
 struct compare_node {
 	bool operator()(Node* left, Node* right)
 	{
@@ -38,8 +39,12 @@ Node* new_node(char symbol, double frequency, Node* left, Node* right);
 
 void encode(Node* root, string str, unordered_map<char, string>& huffmanCode);
 
-void decode(Node* root, int& index, string str);
-
 data_maps build_huffman_tree(string text);
 
+data_maps parsing_file(string text);
+
 unsigned long long int get_file_size(const char* file_name);
+
+Node* recreate_haffman_tree(unordered_map<char, double>& char_prob);
+
+string decode_huffman_text(Node* root, string& encodedText);

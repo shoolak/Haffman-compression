@@ -8,12 +8,12 @@ using namespace std;
 
 int main()
 {
-	// // TODO: separete decoding
-	// // TODO: headers for decoding
+	//TODO fix decoding
 	int choose;
-	cout << "Hi! Choose the comppresion you want from" << endl;
-	cout << "1. From console" << endl;
-	cout << "2. From file" << endl;
+	cout << "Hi! Choose whatever you want" << endl;
+	cout << "1. Compresion from console" << endl;
+	cout << "2. Compresion from file" << endl;
+	cout << "3. Decompression file" << endl;
 	cout << "Your choice: " << endl;
 	cin >> choose;
 	if (choose == 1)
@@ -23,9 +23,19 @@ int main()
 		cin >> text;
 		
 		data_maps maps = build_huffman_tree(text);
-
+		for (auto pair : maps.char_prob)
+			cout << pair.first << " " << pair.second << endl;
+		cout << maps.ascii_char;
+		
+		/*for (auto pair : maps.char_prob)
+			cout << pair.first << " " << pair.second << endl;
 		cout << maps.haffcode_all << endl;
-		cout << maps.ascii_char << endl;
+		Node* nd;
+		nd = recreate_haffman_tree(maps.char_prob);
+
+		string st;
+		st = decodeHuffmanText(nd, maps.haffcode_all);
+		cout << st;*/
 	}
 	else if (choose == 2)
 	{
@@ -49,8 +59,18 @@ int main()
 		string incoded_file = input + ".cmph";
 		ofstream compessed_file(incoded_file);
 		const char* file_path_coded = incoded_file.c_str();
+		for (auto pair : maps.char_prob)
+			compessed_file << pair.first << " " << pair.second << endl;
 		compessed_file << maps.ascii_char;
 		cout << "Size of encoded file is " << get_file_size(file_path_coded)  << " KB" << endl;
+	}
+	else if (choose == 3)
+	{
+		data_maps maps;
+		maps = parsing_file("D:\\HC_test\\test_large.cmph");
+		for (auto pair : maps.char_prob)
+			cout << pair.first << " " << pair.second << endl;
+		cout << maps.ascii_char;
 	}
 
 	return 0;
