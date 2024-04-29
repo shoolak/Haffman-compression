@@ -1,6 +1,6 @@
 #include "building_tree.h"
 #include "info_character.h"
-
+#include <sstream> 
 
 Node* new_node(char symbol, double frequency, Node* left, Node* right)
 {
@@ -26,27 +26,6 @@ void encode(Node* root, string str, unordered_map<char, string>& huffmanCode)
 	encode(root->left, str + "0", huffmanCode);
 	encode(root->right, str + "1", huffmanCode);
 }
-
-//void decode(Node* root, int& index, string str)
-//{
-//	if (root == nullptr) {
-//		return;
-//	}
-//
-//	// found a leaf node
-//	if (!root->left && !root->right)
-//	{
-//		cout << root->symbol;
-//		return;
-//	}
-//
-//	index++;
-//
-//	if (str[index] == '0')
-//		decode(root->left, index, str);
-//	else
-//		decode(root->right, index, str);
-//}
 
 char binaryToChar(string code)//converting 8 digits to the ascii symbol
 {
@@ -135,15 +114,20 @@ data_maps parsing_file(string text)
 {
 	data_maps data;
 	ifstream file(text);
+
 	char ch;
 	double prob;
-	while (file >> ch >> prob)
+	streampos currentPosition;
+	std::string line;
+	while (getline(file, line))
 	{
-		data.char_prob[ch] = prob;
-	}
-
-	while (file.get(ch)) {
-		data.ascii_char += ch;
+		std::stringstream ss{ line };
+		if (ss >> ch >> prob) {
+			data.char_prob[ch] = prob;
+		}
+		else {
+			data.ascii_char += line;
+		}
 	}
 	return data;
 }
@@ -156,5 +140,19 @@ unsigned long long int get_file_size(const char* file_name) // return size of fi
 	fclose(file);
 	return size;
 } 
+string stringToBinary(const std::string& str) {
+	std::string binaryString;
+	for (char c : str) {
+		// Convert character to ASCII value
+		int asciiValue = static_cast<int>(c);
+
+		// Convert ASCII value to binary
+		std::bitset<8> binary(asciiValue);
+
+		// Append binary representation of the character to the result string
+		binaryString += binary.to_string();
+	}
+	return binaryString;
+}
 
 

@@ -4,6 +4,7 @@
 #include <iostream>
 #include <fstream>
 #include <stdio.h>
+#include <bitset>
 
 
 
@@ -48,3 +49,5 @@ unsigned long long int get_file_size(const char* file_name);
 Node* recreate_haffman_tree(unordered_map<char, double>& char_prob);
 
 string decode_huffman_text(Node* root, string& encodedText);
+
+string stringToBinary(const string& str);

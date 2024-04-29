@@ -22,7 +22,7 @@ string file_to_string(string filename)
     if (file.is_open()) {
         while (getline(file, temp))
         {
-            text_file += temp + "\n";
+            text_file += temp;
         }
     }
     return text_file;

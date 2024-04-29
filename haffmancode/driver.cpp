@@ -51,26 +51,37 @@ int main()
 
 		size_t dot_pos = input.find_first_of('.');
 		while (dot_pos != std::string::npos)
-			{
+		{
 				input.erase(dot_pos);
 				dot_pos = input.find_last_of('.');
-			}
+		}
 		
 		string incoded_file = input + ".cmph";
 		ofstream compessed_file(incoded_file);
 		const char* file_path_coded = incoded_file.c_str();
+
 		for (auto pair : maps.char_prob)
 			compessed_file << pair.first << " " << pair.second << endl;
 		compessed_file << maps.ascii_char;
+
 		cout << "Size of encoded file is " << get_file_size(file_path_coded)  << " KB" << endl;
 	}
 	else if (choose == 3)
 	{
 		data_maps maps;
-		maps = parsing_file("D:\\HC_test\\test_large.cmph");
+		maps = parsing_file("D:\\HC_test\\testing.cmph");
 		for (auto pair : maps.char_prob)
+		{
 			cout << pair.first << " " << pair.second << endl;
-		cout << maps.ascii_char;
+		}	
+		cout << maps.ascii_char << endl;
+		Node* nd;
+		nd = recreate_haffman_tree(maps.char_prob);
+
+		string st;
+		string binary = stringToBinary(maps.ascii_char);
+		st = decode_huffman_text(nd, binary);
+		cout << st;
 	}
 
 	return 0;
